@@ -6,7 +6,7 @@ class userController {
   public async index(req: Request, res: Response) {
     const users = await User.findAll();
 
-    return res.json(users);
+    return { users };
   }
 
   public async store(req: Request, res: Response) {

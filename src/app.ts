@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 
+import RedisService from "./config/redis";
 import { sequelize } from "./database";
 import { router } from "./router/router";
 
@@ -22,6 +23,7 @@ class App {
 
   private database(): void {
     sequelize;
+    RedisService;
   }
 
   private router(): void {

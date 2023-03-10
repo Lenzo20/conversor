@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import redisController from "../controllers/redisController";
 import { test } from "../controllers/teste";
 import userController from "../controllers/userController";
 
@@ -11,7 +12,7 @@ router.get("/test", (req, res) => {
 
 router.post("/test", test);
 
-router.get("/user", userController.index);
+router.get("/user", redisController.index);
 router.post("/user", userController.store);
 router.delete("/user", userController.delete);
 router.get("/historic", userController.historic);
