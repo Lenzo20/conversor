@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 
+import redis from "../config/redis";
+import { Historic } from "../model/HIstoric";
 import { User } from "../model/User";
+import { conversor } from "./apiConversor";
+import { saveHistoric } from "./historic";
 
 class userController {
-  public async index(req: Request, res: Response) {
+  public async index(_req: Request, _res: Response) {
     const users = await User.findAll();
 
     return { users };
@@ -14,14 +18,6 @@ class userController {
       const { originCurrency, originValue, destinationCurrency } = req.body;
       const { iduser } = req.headers;
 
-      const array = [
-        { "originCurrency": originCurrency },
-        { "originValue": originValue || null },
-        { "destinationCurrency": destinationCurrency || null },
-      ];
-
-      console.log(array);
-
       const users = await User.create({
         originCurrency: originCurrency,
         originValue: originValue,
@@ -30,7 +26,17 @@ class userController {
         idUser: iduser
       });
 
-      return res.json(users);
+
+      await redis.set("users", JSON.stringify(await User.findAll()), "EX", 80);
+
+      const result = await conversor(users);
+
+
+      if (!result)
+        return res.status(400).json({ error: "Error em converter a moeda" });
+
+      const historic = await saveHistoric(result.newArray);
+      return res.json(historic);
     }
     catch (err) {
       return res.json({ error: err });
@@ -53,17 +59,28 @@ class userController {
     }
   }
 
-  public async historic(req: Request, res: Response) {
+  public async historicUser(req: Request, res: Response) {
     try {
       const { iduser } = req.headers;
 
-      const users = await User.findAll({
+      const users = await Historic.findAll({
         where: {
           idUser: iduser
         }
       });
 
       return res.json(users);
+    } catch (err) {
+      console.log(err);
+      res.json({ error: "idUser not found" });
+    }
+  }
+
+  public async historic(_req: Request, res: Response) {
+    try {
+      const users = await Historic.findAll();
+
+      return { users };
     } catch (err) {
       console.log(err);
       res.json(err);

@@ -2,6 +2,14 @@ import Sequelize, { DataTypes } from "sequelize";
 
 import { sequelize } from "../database";
 
+interface UserInterface extends Document {
+  originCurrency: string;
+  originValue: number;
+  destinationCurrency?: string;
+  conversionRate?: number;
+  idUser: string;
+}
+
 const User = sequelize.define("User", {
   id: {
     type: DataTypes.BIGINT,
@@ -32,4 +40,4 @@ const User = sequelize.define("User", {
 //   .catch(error => console.error(error));
 
 
-export { User };
+export { User, UserInterface };

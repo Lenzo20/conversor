@@ -8,5 +8,5 @@ export function test(req: Request, res: Response) {
     { "req.body": req.body || null }
   ];
 
-  return res.json(array);
+  return { array };
 }

@@ -4,6 +4,7 @@ import express from "express";
 import RedisService from "./config/redis";
 import { sequelize } from "./database";
 import { router } from "./router/router";
+import { routerAdmin } from "./router/admin/router";
 
 class App {
   public express = express.application;
@@ -28,6 +29,7 @@ class App {
 
   private router(): void {
     this.express.use(router);
+    this.express.use("/admin", routerAdmin);
   }
 }
 
