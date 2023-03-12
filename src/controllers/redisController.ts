@@ -26,12 +26,13 @@ class redisController {
     return res.json(cacheUsersJson);
   }
 
-  // Busca no cache se tem algum valor se não ele busca no banco main e salva no cache que salva por 50seg
+  // Cache search first, then main database with 50-second cache save
   public async indexHistoric(req: Request, res: Response) {
     const redis = new Redis();
-    // Buscar nno redis para ver se tem algo
+    // Search in Redis to see if there is something.
     const cacheHistoric = await redis.get("Historic");
 
+    //  If no value, searches in the main database.
     if (!cacheHistoric) {
 
       console.log(".\x1b[35m%s\x1b[0m", "From Database");

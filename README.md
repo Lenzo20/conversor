@@ -1,10 +1,10 @@
-# Conversor de moeda
+# Currency converter
 
-Pequeno conversor de moeda, com capacidade de converter 4 moedas no momento
+Small currency converter, capable of converting 4 currencies at the moment.
 
 - USD
 - BRl
 - EUR
 - JPY
 
-Toda moeda é convetida para o dolar
+All currencies are converted to the dollar.

@@ -11,7 +11,7 @@ export async function conversor(user) {
 
       return moedas[pais];
     }
-
+    // If one of the values is equal to the United States, it converts the currencies directly
     if (user.dataValues.originCurrency === "Estados Unidos" || user.dataValues.destinationCurrency === "Estados Unidos") {
       const destination = user.dataValues.destinationCurrency;
       const origin = user.dataValues.originCurrency;
@@ -32,6 +32,11 @@ export async function conversor(user) {
 
       return { newArray };
     }
+
+    // soon
+    // Here will be the code to convert the currencies to USD and then perform the final conversion.
+
+    // ---------
     const pais = user.dataValues.originCurrency;
     const sigla = siglaMoeda(pais);
 

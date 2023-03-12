@@ -35,6 +35,7 @@ class userController {
       if (!result)
         return res.status(400).json({ error: "Error em converter a moeda" });
 
+      // "Saving data for historical control."
       const historic = await saveHistoric(result.newArray);
       return res.json(historic);
     }
@@ -59,6 +60,7 @@ class userController {
     }
   }
 
+  // Search in historical database with filters
   public async historicUser(req: Request, res: Response) {
     try {
       const { iduser } = req.headers;
@@ -76,6 +78,7 @@ class userController {
     }
   }
 
+  // Search in the history database
   public async historic(_req: Request, res: Response) {
     try {
       const users = await Historic.findAll();
